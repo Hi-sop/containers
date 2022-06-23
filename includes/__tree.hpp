@@ -131,7 +131,7 @@ namespace ft
 
 		iterator_type &operator++() throw()
 		{
-			__node_ = tree_increment(__node_);
+			__node_ = __tree_increment(__node_);
 			return *this;
 		}
 
