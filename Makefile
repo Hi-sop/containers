@@ -6,8 +6,7 @@ INC_DIR = ./includes/
 
 SRCS= $(addprefix $(SRC_DIR), \
 	  main.cpp \
-	  tree.cpp
-)
+	  tree.cpp)
 
 OBJS= $(SRCS:.cpp=.o)
 
@@ -16,10 +15,10 @@ NAME= container
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -I$(INC_DIR) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -I$(INC_DIR) -o $(NAME)
 
 .cpp.o:
-	$(CC) $(CFLAGS) -c $< -o $(<:.cpp=.o)
+	$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $(<:.cpp=.o)
 
 clean:
 	rm -f $(OBJS)

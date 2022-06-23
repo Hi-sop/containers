@@ -1,5 +1,5 @@
-#ifndef TREE_HPP
-#define TREE_HPP
+#ifndef __TREE_HPP
+#define __TREE_HPP
 
 #include <memory>
 
@@ -11,9 +11,9 @@ namespace ft
 {
 	enum __tree_node_color
 	{
-		RED = false;
-		BALCK = true;
-	}
+		RED = false,
+		BLACK = true
+	};
 
 	struct __tree_node_base;
 	
@@ -30,9 +30,9 @@ namespace ft
 
 	__tree_node_base *__tree_erase_and_fixup(__tree_node_base *const __z, __tree_node_base &__header) throw();
 
-	__tree_node_base *__minimum(__tree_node_base *__x) FT_NOEXCEPT;
+	__tree_node_base *__minimum(__tree_node_base *__x) throw();
 	const __tree_node_base *__minimum(const __tree_node_base *__x) throw();
-	__tree_node_base *__maximum(__tree_node_base *__x) FT_NOEXCEPT;
+	__tree_node_base *__maximum(__tree_node_base *__x) throw();
 	const __tree_node_base *__maximum(const __tree_node_base *__x) throw();
 
 	struct __tree_node_base
@@ -43,7 +43,7 @@ namespace ft
 		__tree_node_color __color_;
 		_Base_ptr __parent_;
 		_Base_ptr __left_;
-		_Base_ptr __right;
+		_Base_ptr __right_;
 	};
 
 	struct __tree_header
@@ -131,11 +131,11 @@ namespace ft
 
 		iterator_type &operator++() throw()
 		{
-			__node_ = tree_increment(__node);
+			__node_ = tree_increment(__node_);
 			return *this;
 		}
 
-		iterator_type &opertor++(int) throw()
+		iterator_type &operator++(int) throw()
 		{
 			iterator_type __tmp(*this);
 			++(*this);
@@ -265,7 +265,7 @@ namespace ft
 			typedef ptrdiff_t difference_type;
 			typedef _Alloc allocator_type;
 
-			typedef typename _Alloc::template rebind<__tree_node<_Val> >::other_Node_allocator;
+			typedef typename _Alloc::template rebind<__tree_node<_Val> >::other _Node_allocator;
 
 			typedef __tree_iterator<value_type> iterator;
 			typedef __tree_const_iterator<value_type> const_iterator;
@@ -498,7 +498,7 @@ namespace ft
 		}
 
 		__tree(const _Compare &_comp, const allocator_type &__a = 
-				alloctor_type()) : __impl_(_comp, _Node_allocator(__a))
+				allocator_type()) : __impl_(_comp, _Node_allocator(__a))
 		{
 		}
 		  

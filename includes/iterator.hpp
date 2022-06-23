@@ -26,8 +26,8 @@ namespace ft
 
 	#endif
 
-	template <typename _Category, typename _T, typename _Distance = ptrdeff_t,
-			 typename _pointer = _T *, typename _reference T &>
+	template <typename _Category, typename _T, typename _Distance = ptrdiff_t,
+			 typename _pointer = _T *, typename _reference = _T &>
 	struct iterator
 	{
 		typedef _T value_type;
@@ -88,18 +88,18 @@ namespace ft
 
 	template <typename _Iter>
 	struct __iterator_traits<_Iter, true> 
-	: iterator_traits_typedefs<Iter, 
-		is_same<typename Iter::iterator_category, input_iterator_tag>::value ||
-		is_same<typename Iter::iterator_category, output_iterator_tag>::value ||
-		is_same<typename Iter::iterator_category, forward_iterator_tag>::value ||
-		is_same<typename Iter::iterator_category, bidirectional_iterator_tag>::value ||
-		is_same<typename Iter::iterator_category, random_access_iterator_tag>::value>
+	: __iterator_traits_typedefs<
+		_Iter, is_same<typename _Iter::iterator_category, input_iterator_tag>::value ||
+		is_same<typename _Iter::iterator_category, output_iterator_tag>::value ||
+		is_same<typename _Iter::iterator_category, forward_iterator_tag>::value ||
+		is_same<typename _Iter::iterator_category, bidirectional_iterator_tag>::value ||
+		is_same<typename _Iter::iterator_category, random_access_iterator_tag>::value>
 		{
 		};
 
 	template <typename _Iter>
 	struct iterator_traits : 
-		__iterator_traits<_Iter, has_iterator_typedefs<_Iter>::value>
+		__iterator_traits<_Iter, __has_iterator_typedefs<_Iter>::value>
 	{
 	};
 
@@ -118,7 +118,7 @@ namespace ft
 	{
 		typedef random_access_iterator_tag iterator_category;
 		typedef typename remove_cv<_T>::type value_type;
-		typedef ptrdiff difference_type;
+		typedef ptrdiff_t difference_type;
 		typedef const _T *pointer;
 		typedef const _T &reference;
 	};
@@ -133,13 +133,13 @@ namespace ft
 	template <typename _Iter>
 	struct __is_iterator<_Iter, true> : public true_type
 	{
-		typedef typename Iter::iterator_category category;
+		typedef typename _Iter::iterator_category category;
 	};
 
 	template <typename _T>
 	struct __is_iterator<_T *, true> : public true_type
 	{
-		typedef typename Iter::iterator_traits<_T *>::iterator_category category;
+		typedef typename iterator_traits<_T *>::iterator_category category;
 	};
 
 	template <typename _Iter>
@@ -156,7 +156,7 @@ namespace ft
 	template <typename _Iter>
 	struct __is_output_iterator 
 	: public integral_constant<bool,
-		is_same<typename __is_iterator<_iter>::category, output_iterator_tag>::value>
+		is_same<typename __is_iterator<_Iter>::category, output_iterator_tag>::value>
 	{
 	};
 
@@ -221,7 +221,7 @@ namespace ft
 			return *this;
 		}
 
-		Iter base() const 
+		_Iter base() const 
 		{
 			return current;
 		}
